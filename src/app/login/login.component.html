@@ -1,16 +1,28 @@
-<!-- <div class="d-flex align-items-center justify-content-center h-100 from-indigo-600">
-    <mat-card>
-        <mat-card-header>
-            <mat-card-title >LOGIN PAGE</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            body
-        </mat-card-content>
-        <mat-card-actions>
-            <button mat-button>เข้าสู่ระบบ</button>
-            <button mat-button>ลืมรหัสผ่าน</button>
-        </mat-card-actions>
-    </mat-card>
-</div>  -->
-
-<h1 class="from-orange-500">sssssssssssssssssss</h1>
+<div class=" bg-gradient-to-rh-100 d-flex justify-center items-center h-100">
+    <div class="bg-img"></div>
+    <div class="bg-content row">
+        <div class="col-12 mb-6 text-center">
+            <span class="title">DCI SYSTEM</span>
+        </div>
+        <div class="col-12">
+            <div class="justify-content-center d-flex align-items-center">
+                <mat-card>
+                    <mat-card-header class="mb-2">
+                        <mat-card-title>Sign in to your account</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content class="px-3 pt-3 pb-2">
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="text" class="form-control" placeholder="กรอกรหัสพนักงานของคุณ"
+                                    [(ngModel)]="dciId" (keyup.enter)="login()">
+                            </div>
+                        </div>
+                    </mat-card-content>
+                    <mat-card-actions  class="px-3 pb-3">
+                        <button mat-raised-button color="primary" (click)="login()" style="width:100%">เข้าสู่ระบบ</button>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>

@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'devworker';
+  loginState = false;
+  constructor(){
+    if(localStorage.getItem('dci_id') !== null){
+       this.loginState = true;
+    }
+  }
 }

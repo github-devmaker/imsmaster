@@ -1,0 +1,166 @@
+<div class="px-4 py-3">
+    <div class="row">
+        <div class="col-12 mb-3">
+            <div class="font-bold text-xl mb-2">IMS Master</div>
+            <div class="text-gray-500">จัดการเครื่องมือวัด</div>
+        </div>
+        <div class="col-12 px-0 py-2" align="end">
+            <button mat-raised-button color="primary" (click)="addModel()"><mat-icon>add</mat-icon>เพิ่มโมเดลใหม่</button>
+        </div>
+        <div class="col-12 filters rounded-lg shadow-lg bg-white  px-4 py-3 min-h-200 mb-2 leading-10">
+            <form class="horizontal" [formGroup]="formFilter">
+                <div class="row ">
+                    <div class="col-auto">
+                        <span class="mr-3 font-semibold">FACTORY</span>
+                        <div class="relative inline-block text-left">
+                            <div>
+                                <select formControlName="fac" (change)="initFilter(true)" [(ngModel)]="ngFac"
+                                    name="ngFac"
+                                    class="form-select text-sm  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                                    <option *ngFor="let item of listFactory | keyvalue" [value]="item.key">
+                                        {{item.value}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <span class="mr-3 font-semibold">LINE</span>
+                        <div class="relative inline-block text-left">
+                            <select formControlName="line" (change)="initFilter(true)" #filterLine [(ngModel)]="ngLine"
+                                name="ngLine"
+                                class="form-select  text-sm  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                                <option *ngFor="let line of listLine[ngFac]" [ngValue]="line">{{line}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <span class="mr-3 font-semibold">COMMOM MODEL</span>
+                        <div class="relative inline-block text-left">
+                            <div>
+                                <select formControlName="proId"
+                                    class="min-w-[100px] form-select  text-sm  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                                    (change)="initFilter(false)">
+                                    <option *ngFor="let item of listProgram" [ngValue]="item.proId">{{item.proName + ' (' + item.proId + ')'}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <span class="mr-3 font-semibold">MODEL</span>
+                        <div class="relative inline-block text-left">
+                            <div>
+                                <select formControlName="model"
+                                    class="min-w-[100px] form-select  text-sm  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                                    (change)="initFilter(false)">
+                                    <!-- <option [value]="null">ALL</option> -->
+                                    <option *ngFor="let item of listModel" [ngValue]="item.mId">{{item.mName + ' (' + item.mId + ')'}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col text-right" *ngIf="false">
+                        <button mat-raised-button color="primary"><mat-icon>search</mat-icon> Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-12 rounded-lg shadow-lg bg-white  px-4 py-3" id="tbImsMaster">
+            <table mat-table [dataSource]="dataSource">
+                <ng-container matColumnDef="rName" >
+                    <th mat-header-cell *matHeaderCellDef> RANK </th>
+                    <td mat-cell *matCellDef="let element"> {{element.rName}} </td>
+                </ng-container>
+                <ng-container matColumnDef="pName" >
+                    <th mat-header-cell *matHeaderCellDef> PART </th>
+                    <td mat-cell *matCellDef="let element"> {{element.pName}} </td>
+                </ng-container>
+                <ng-container matColumnDef="ptName" >
+                    <th mat-header-cell *matHeaderCellDef> PART TYPE </th>
+                    <td mat-cell *matCellDef="let element"> {{element.ptName}} </td>
+                </ng-container>
+                <ng-container matColumnDef="mId" >
+                    <th mat-header-cell *matHeaderCellDef> MODEL CODE </th>
+                    <td mat-cell *matCellDef="let element" class="font-bold"> {{element.mId}} </td>
+                </ng-container>
+                <ng-container matColumnDef="mName" >
+                    <th mat-header-cell *matHeaderCellDef> MODEL NAME </th>
+                    <td mat-cell *matCellDef="let element" class="font-bold"> {{element.mName}} </td>
+                </ng-container>
+                <ng-container matColumnDef="pMidDimension">
+                    <th mat-header-cell *matHeaderCellDef> PART MID DIMENSION </th>
+                    <td mat-cell *matCellDef="let element" class="text-orange-500 font-bold text-end">
+                        {{element.pMidDimension}} </td>
+                </ng-container>
+               
+                <ng-container matColumnDef="pMinDimension">
+                    <th mat-header-cell *matHeaderCellDef> PART MIN DIMENSION </th>
+                    <td mat-cell *matCellDef="let element" class="text-red-500 font-bold text-end">
+                        {{element.pMinDimension}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="pMaxDimension">
+                    <th mat-header-cell *matHeaderCellDef> PART MAX DIMENSION </th>
+                    <td mat-cell *matCellDef="let element" class="text-green-600 font-bold text-end">
+                        {{element.pMaxDimension}} </td>
+                </ng-container>
+              
+                <ng-container matColumnDef="pCycletime">
+                    <th mat-header-cell *matHeaderCellDef> PART CYCLETIME</th>
+                    <td mat-cell *matCellDef="let element"> {{element.pCycletime}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="pDate">
+                    <th mat-header-cell *matHeaderCellDef> UPDATE DATE </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.pDate | date: "dd/MM/YYYY hh:mm:ss" }} </td>
+                </ng-container>
+                <ng-container matColumnDef="pUser">
+                    <th mat-header-cell *matHeaderCellDef> UPDATE BY </th>
+                    <td mat-cell *matCellDef="let element"> {{element.pUser}} </td>
+                </ng-container>
+                <ng-container matColumnDef="pStatus">
+                    <th mat-header-cell *matHeaderCellDef> STATUS </th>
+                    <td mat-cell *matCellDef="let element"> {{element.pStatus}} </td>
+                </ng-container>
+                <ng-container matColumnDef="tools" >
+                    <th mat-header-cell *matHeaderCellDef > # </th>
+                    <td mat-cell *matCellDef="let element;let i = index;">
+                        <button mat-icon-button [matMenuTriggerFor]="menu"
+                            [matMenuTriggerData]="{element:element,fac:ngFac,index:i,filter:formFilter.value,status:element.pStatus}"><mat-icon>more_vert</mat-icon></button>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="colsImsMaster"></tr>
+                <tr mat-row *matRowDef="let row; columns: colsImsMaster;"></tr>
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell dataEmpty p-4 text-center" colspan="13">ไม่พบข้อมูลที่คุณค้นหา ...</td>
+                  </tr>
+            </table>
+            <ng-container matColumnDef="noRecords">
+                <td mat-footer-cell *matFooterCellDef>
+                  No records found
+                </td>
+              </ng-container>
+            <mat-paginator [pageSizeOptions]="[10,25,50]" showFirstLastButtons>
+            </mat-paginator>
+        </div>
+    </div>
+</div>
+
+<mat-menu #menu="matMenu" xPosition="before">
+    <ng-template matMenuContent let-element="element" let-fac="fac" let-index="index" let-filter = "filter" let-status = "status">
+        <button mat-menu-item (click)="dialogEdit(element,filter)">
+            <mat-icon>edit</mat-icon>
+            <span>แก้ไข</span>
+        </button>
+        <button mat-menu-item (click)="deleteModel(element,index)">
+            <mat-icon>{{ status ? 'close' : 'reply'}}</mat-icon>
+            <span>{{ status ? 'ยกเลิก' : 'นำกลับ'}}</span>
+        </button>
+
+        <!-- <button mat-menu-item (click)="pullModel(element,index)">
+            <mat-icon>reply</mat-icon>
+            <span>นำกลับ</span>
+        </button> -->
+    </ng-template>
+</mat-menu>

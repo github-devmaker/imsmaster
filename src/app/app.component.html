@@ -1,1 +1,3 @@
-<app-login></app-login>
+
+<app-index *ngIf="loginState"></app-index>
+<app-login *ngIf="!loginState"></app-login>

@@ -1,0 +1,72 @@
+<h1 matDialogTitle><mat-icon>edit</mat-icon>&nbsp;Edit Standard</h1>
+<mat-dialog-content>
+    <mat-spinner *ngIf="!itemRank.length"></mat-spinner>
+    <form [formGroup]="formEdit" *ngIf="itemRank.length">
+        <div class="col-12 mb-2">
+            <div class="row">
+                <label class="font-bold">MODEL</label>
+                <div class="pl-6">
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <div>CODE : <span class="font-bold">{{programData.mId}}</span></div>
+                        </div>
+                        <div class="col-6">
+                            <div>NAME : <span class="font-bold" >{{programData.mName}}</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 mb-3">
+            <div class="row pt-2">
+                <label class="font-bold">PART</label>
+                <div class="pl-6">
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <div>NAME : <span class="font-bold">{{programData.pName}}</span></div>
+                        </div>
+                        <div class="col-6">
+                            <div>TYPE : <span class="font-bold">{{programData.ptName}}</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 mb-2">
+            <div class="row pt-3">
+                <label class="font-bold">RANK</label>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <select class="form-select" [(ngModel)]="rank" name = "rank" formControlName="rId">
+                            <option *ngFor="let item of itemRank" [ngValue]="item.gId">{{item.rName}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="row pt-2">
+                <label class="font-bold">DIMENSION</label>
+                <div class="row mt-2">
+                    <div class="col-4">
+                        <span class="text-orange-400">MID</span>
+                        <input class="form-control" type="number"  placeholder="{{programData.pMidDimension}}" formControlName="midDimension"/>
+                    </div>
+                    <div class="col-4">
+                        <span class="text-red-500">MIN</span>
+                        <input class="form-control" type="number"  placeholder="{{programData.pMinDimension}}" formControlName="minDimension"/>
+                    </div>
+                    <div class="col-4">
+                        <span class="text-green-600">MAX</span>
+                        <input class="form-control" type="number"  placeholder="{{programData.pMaxDimension}}" formControlName="maxDimension"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions class="py-3 pt-3" align="end">
+    <button mat-raised-button color="primary" (click)="editModel()">Save</button>
+    <button mat-raised-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

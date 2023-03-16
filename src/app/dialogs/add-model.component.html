@@ -1,0 +1,82 @@
+<h1 matDialogTitle>เพิ่มโมเดลใหม่</h1>
+<mat-dialog-content>
+    <mat-stepper [linear]="true" #stepper orientation="vertical">
+        <mat-step label="อ้างอิงข้อมูลโมเดล">
+            <form [formGroup]="formRefModel" class="pt-2">
+                <div class="row">
+                    <div class="col-sm-6 col-md-6 col-lg-4">
+                        <span class="mb-2">Factory</span>
+                        <select class="form-select" formControlName="fac" (change)="filterAddModelChange()">
+                            <option *ngFor="let item of listFactory | keyvalue" [value]="item.key">
+                                {{item.value}}</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-4">
+                        <span class="mb-2">Line</span>
+                        <select class="form-select" formControlName="line" (change)="filterLineChange()">
+                            <option *ngFor="let line of listLine[formRefModel.value.fac]" [value]="line">{{line }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-4">
+                        <span class="mb-2">Common Model</span>
+                        <select class="form-select" formControlName="proId" (change)="filterProIdChange(proId.value)"
+                            #proId>
+                            <option *ngFor="let item of listProgram;trackBy: trackByFn" [value]="item.proId">
+                                {{item.proName }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-12 mt-2">
+                        <span class="mb-2">Model</span>
+                        <select class="form-select" formControlName="mId" (change)="filterModelChange(model.value)"
+                            #model [attr.disabled]="refModel  ? '' : null">
+                            <option *ngFor="let item of listModel" [value]="item.mId">{{item.mName }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <button mat-raised-button color="primary" matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+
+        <mat-step [stepControl]="formModel">
+            <ng-template matStepLabel>
+                กรอกข้อมูลโมเดลใหม่ของคุณ
+                <span class="text-red-500"></span>
+            </ng-template>
+            <form [formGroup]="formModel">
+                <div class="row">
+                    <label class="font-bold mt-3 mb-2">โมเดลใหม่</label>
+                    <div class="col-12 d-flex items-center gap-3" >
+                        <mat-form-field class="mat-form-field-no-padding">
+                            <mat-label>Code</mat-label>
+                            <input matInput placeholder="Enter Model Code ..." formControlName="code" required
+                                (keyup)="modelCodeChange()">
+                        </mat-form-field>
+                        <mat-form-field class="mat-form-field-no-padding">
+                            <mat-label>Name</mat-label>
+                            <input matInput placeholder="Enter Model Name ..." formControlName="name" required readonly
+                                [disabled]="true">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row mt-1 p-1" *ngIf="usedModel">
+                    <div class="col-12">
+                        <span class="text-red-500">{{usedModelMessage}}</span>
+                    </div>
+                </div>
+            </form>
+            <div class="mt-2">
+                <button mat-raised-button matStepperPrevious class="mr-2">Back</button>
+            </div>
+        </mat-step>
+    </mat-stepper>
+</mat-dialog-content>
+
+<mat-dialog-actions class="py-3 px-3 pt-3" align="end">
+    <button mat-raised-button (click)="saveModel()" class="w-mtr-btn" color="primary" [class.spinner]="loadingSave"
+        [disabled]="loadingSave" *ngIf="!required">Save</button>
+    <button mat-raised-button matDialogClose>Cancel</button>
+</mat-dialog-actions>

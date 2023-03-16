@@ -1,0 +1,25 @@
+// select * {
+//     position: absolute;
+//     background-color: DodgerBlue;
+//     top: 100%;
+//     left: 0;
+//     right: 0;
+//     z-index: 99;
+//     padding: 50;
+//   }
+
+#tbImsMaster th,
+#tbImsMaster td:not(:first-child):not(:nth-child(2)):not(:nth-child(3)) {
+    text-align: center;
+}
+#tbImsMaster table {
+    width: 100%;
+
+}
+#tbImsMaster {
+    position: relative;
+    overflow-x: auto;
+}
+.mat-mdc-menu-content {
+    padding: 0 !important;
+}
