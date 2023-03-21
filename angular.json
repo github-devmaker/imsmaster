@@ -17,6 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            
             "outputPath": "dist/devworker",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -32,7 +33,7 @@
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss",
-              "node_modules/material-design-icons/iconfont/material-icons.css"
+              "node_modules/material-design-icons-iconfont/dist/material-design-icons.css"
             ],
             "scripts": []
           },

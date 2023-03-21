@@ -22,8 +22,8 @@ export class IndexComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.username = localStorage.getItem('name') + ' ' + localStorage.getItem('surn');
-    this.imgUser = 'http://dcidmc.dci.daikin.co.jp/PICTURE/'  + localStorage.getItem('dci_id')  + '.JPG';
+    this.username = localStorage.getItem('name');
+    this.imgUser = 'http://dcidmc.dci.daikin.co.jp/PICTURE/'  + localStorage.getItem('emCode')  + '.JPG';
   }
   openMenuComponent() {
   }

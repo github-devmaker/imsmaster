@@ -6,9 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { trigger } from '@angular/animations';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-ims-master',
@@ -61,6 +59,17 @@ export class ImsMasterComponent {
     });
   };
 
+  connextSOAP(){
+    // this.network.connectSoap().subscribe({
+    //   next:(res)=>{
+    //     console.log(res);
+    //   },error:(err)=>{
+    //     console.log(err);
+    //   }
+    // })
+    // this.network.connectSoap().subscribe();
+    this.network.connectSoap();
+  }
   addModel() {
     const dialogAdd = this.dialog.open(DialogAddModel, {
       width: '50%'
@@ -221,7 +230,6 @@ export class DialogAddModel implements OnInit {
       this.formRefModel.controls['newModelCode'].setValue(this.formModel.controls['code'].value);
       this.network.checkExistMID(this.formRefModel.value).subscribe({
         next: (res) => {
-          console.log(res);
           if (res.content != null && res.content != '' && res.count == 0) {
             this.formModel.controls['name'].setValue(res.content.model);
             this.required = false;
@@ -235,7 +243,7 @@ export class DialogAddModel implements OnInit {
             this.formModel.controls['name'].setValue('');
             this.required = true;
             this.usedModel = true;
-            this.usedModelMessage = 'ไม่พบข้อมูลโมเดลนี้';
+            this.usedModelMessage = res.message;
           }
         }, error: (data) => {
           console.log(data);
@@ -243,6 +251,7 @@ export class DialogAddModel implements OnInit {
       });
     }
   }
+  
   trackByFn(index, item) {
     return index;
   }
@@ -296,29 +305,14 @@ export class DialogAddModel implements OnInit {
   }
 
   saveModel() {
-    // this.router.navigate(['modules/components/component_ims_master',{fac:'2'}]);
-
-
     var modelCode = this.formModel.controls['code'].value;
     this.loadingSave = true;
     this.formRefModel.patchValue({
       newModelCode: modelCode,
       newModelName: this.formModel.controls['name'].value
     });
-    // console.log({ ... this.formRefModel.value, ... this.formModel.value });
-    // return;
-
-    // if (existInFac) {
-    // var snackbarIn = this.snackbar.open('โมเดล ' + this.formModel.controls['name'].value + ' ถูกใช้งานไปแล้ว ...', 'รับทราบ', {
-    //   horizontalPosition: 'center',
-    //   verticalPosition: 'top',
-    // });
-    // this.toast.success('Hello world!', 'Toastr fun!');
-    //   this.loadingSave = false;
-    // } else {
     this.network.addModel({ ... this.formRefModel.value, ... this.formModel.value }).subscribe({
       next: (res) => {
-        // console.log(res);
         this.loadingSave = false;
         var fac = this.formRefModel.controls['fac'].value;
         var line = this.formRefModel.controls['line'].value;
@@ -329,7 +323,6 @@ export class DialogAddModel implements OnInit {
         this.loadingSave = false;
       }
     });
-    // }
   }
 }
 
@@ -359,19 +352,6 @@ export class DialogEdit {
       minDimension: this.programData.pMinDimension,
       maxDimension: this.programData.pMaxDimension
     });
-
-    // this.formEdit.valueChanges.subscribe(data => {
-    //   console.log(data);
-    //   if (data.minDimension === null) {
-    //     this.formEdit.controls['minDimension'].setValue(0);
-    //   }
-    //   if (data.maxDimension === null) {
-    //     this.formEdit.controls['maxDimension'].setValue(0);
-    //   }
-    //   if (data.midDimension === null) {
-    //     this.formEdit.controls['midDimension'].setValue(0);
-    //   }
-    // })
   }
   ngAfterViewInit(): void {
     this.network.getRank(this.fac).subscribe({
@@ -387,8 +367,6 @@ export class DialogEdit {
   }
 
   editModel() {
-    // if (this.formEdit.controls['rId'].value != '' && this.formEdit.controls['midDimension'].value != '' && this.formEdit.controls['minDimension'].value != '' && this.formEdit.controls['maxDimension'].value != '') {
-    console.log(this.formEdit.value);
     if(this.formEdit.controls['midDimension'].value === null){
        console.log('minDimension ' );
     }
@@ -404,7 +382,6 @@ export class DialogEdit {
           this.dialogRef.close();
         } else {
           alert('ไม่สามารถแก้ไขข้อมูลได้ เนื่องจาก : ' + res.mes);
-          console.log(res);
         }
       }, error: (err) => {
         alert(err.message);
